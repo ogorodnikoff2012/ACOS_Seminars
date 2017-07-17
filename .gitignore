@@ -1,0 +1,10 @@
+*.aux
+*.log
+*.nav
+*.out
+*.pdf
+*.gz
+*.toc
+*.tar.gz
+*.snm
+*.vrb
