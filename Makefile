@@ -9,4 +9,4 @@ clean:
 	@find -type f | git check-ignore --stdin | xargs rm
 
 export:
-	@git archive --format=tar.gz --prefix=TeX/ HEAD >export.tar.gz
+	@git archive --format=tar.gz --prefix=ACOS_Seminars/ HEAD >export.tar.gz
