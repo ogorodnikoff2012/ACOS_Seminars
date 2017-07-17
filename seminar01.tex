@@ -1,12 +1,17 @@
 \documentclass{beamer}
+\usetheme{Warsaw}
 \usepackage[utf8]{inputenc}
 \usepackage[russian]{babel}
 \usepackage{default}
-\usetheme{Warsaw}
+
+
 \usepackage{fancyvrb}
+
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows,shapes,shadows,calc}
+
 \usepackage{graphicx}
+
 \usepackage{hyperref}
 
 \title[АКОС --- семинар 1]{Общее знакомство с Unix-подобными ОС на примере Linux}
@@ -110,9 +115,9 @@ drop shadow
 \subsection{Права доступа}
 
 \begin{frame}{Права доступа}
-	В файловой системе UNIX с каждым файлом связан набор \emph{атрибутов}:\pause
+	В файловой системе UNIX с каждым файлом, помимо имени, связан набор \emph{атрибутов}:\pause
 	\begin{itemize}
-		\item{Имя файла}\pause
+%		\item{Имя файла}\pause
 		\item{Каталог, в котором файл лежит}\pause
 		\item{Владелец файла}\pause
 		\item{Время создания, модификации, обращения к файлу}\pause
@@ -129,15 +134,18 @@ drop shadow
 	\end{itemize}
 	\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
 итого 56K
-{\color{red}-rwxr-xr-x} 1 alex students  11K июл  8 17:29 bar*
+{\color{red}-rwxr-xr-x} 1 alex students  11K июл  8 17:29 bar
 {\color{red}-rw-r--r--} 1 alex students  13K июл  8 17:29 CMakeCache.txt
 {\color{red}drwxr-xr-x} 6 alex students 4,0K июл  8 17:29 CMakeFiles/
-{\color{red}-rwxr-xr-x} 1 alex students  11K июл  8 17:29 foo*
+{\color{red}-rwxr-xr-x} 1 alex students  11K июл  8 17:29 foo
 {\color{red}-rw-r--r--} 1 alex students 5,9K июл  8 17:29 Makefile
 	\end{Verbatim}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
+	\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+{\color{red}-rwxr-xr-x} 1 alex students  11K июл  8 17:29 bar
+	\end{Verbatim}
 	\begin{itemize}
 		\item{Первый символ отвечает за тип файла (в данном листинге есть только простые файлы и один каталог)}\pause
 		\item{Затем идут три rwx-группы: первая из них отвечает за права владельца файла (\texttt{alex}), вторая --- за права группы-владельца (\texttt{students}), а третья --- за права всех остальных пользователей}\pause
@@ -147,7 +155,10 @@ drop shadow
 	\end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
+	\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+{\color{red}drwxr-xr-x} 6 alex students 4,0K июл  8 17:29 CMakeFiles/
+	\end{Verbatim}
 	\begin{itemize}
 		\item{В случае каталога эти биты имеют немного другой смысл. Так, если бит \texttt{r} установлен, то Вы можете получить список файлов, лежащих в этом каталоге, бит \texttt{w} позволяет создавать и удалять файлы, а от бита \texttt{x} зависит, сможете ли Вы узнать список атрибутов, связанных с файлом из этого каталога}\pause
 		\item{Забавная ситуация возникает, когда у каталога установлены права \texttt{-wx}. В этом случае невозможно узнать напрямую, какие файлы лежат в каталоге, зато возможно создание, удаление, изменение файлов и подкаталогов (на практике чаще всего используют набор прав 7 (\texttt{rwx}), 5 (\texttt{r-x}) и 0 (\texttt{-{}-{}-}))}
@@ -192,7 +203,7 @@ drop shadow
 		\item{\texttt{/proc} --- виртуальная файловая система, представляющая состояние ядра и запущенных процессов в виде файлов}\pause
 		\item{\texttt{/root} --- домашний каталог пользователя \texttt{root}}\pause
 		\item{\texttt{/sbin} --- основные системные программы для администрирования}\pause
-		\item{\texttt{/tmp} --- временные файлы}\pause
+		\item{\texttt{/tmp} --- временные файлы, которые будут удалены при перезагрузке}\pause
 		\item{\texttt{/usr} --- пользовательские приложения и дополнительные утилиты (в подкаталогах \texttt{/usr/bin}, \texttt{/usr/sbin}, \texttt{/usr/lib} и других)}\pause
 		\item{\texttt{/var} --- изменяемые файлы (логи, кэш приложений, почтовые ящики и др.)}
 	\end{itemize}
