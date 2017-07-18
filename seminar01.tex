@@ -18,13 +18,23 @@
 \date{}
 	
 \tikzstyle{dir} = [
-ellipse,
-thick,
-minimum size=1cm,
-draw=red!50!black!50,
-top color=white,
-bottom color=red!50!black!20,
-drop shadow
+	ellipse,
+	thick,
+	minimum size=1cm,
+	draw=red!50!black!50,
+	top color=white,
+	bottom color=red!50!black!20,
+	drop shadow
+]
+
+\tikzstyle{workdir} = [
+	ellipse,
+	thick,
+	minimum size=1cm,
+	draw=red!50!black!70,
+	top color=white,
+	bottom color=red!50!black!50,
+	drop shadow
 ]
 	
 \tikzstyle{file} = [
@@ -120,7 +130,7 @@ drop shadow
 %		\item{Имя файла}\pause
 		\item{Каталог, в котором файл лежит}\pause
 		\item{Владелец файла}\pause
-		\item{Время создания, модификации, обращения к файлу}\pause
+		\item{Время создания, последней модификации, последнего обращения к файлу}\pause
 		\item{Права доступа к файлу}\pause
 		\item{И так далее}
 	\end{itemize}
@@ -221,10 +231,74 @@ drop shadow
 		\end{center}
 \end{frame}
 
+\begin{frame}[fragile]{Начало работы}
+	Итак, Вы открыли bash в своём любимом эмуляторе терминала. Скорее всего, Вы увидите примерно такое \emph{приглашение bash}:
+	\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+alex@localhost:~\$
+	\end{Verbatim}
+	\pause
+	Для работы с bash небходимо ввести нужную Вам команду, подождать, пока она выполнится (о завершении предыдущей команды bash проинформирует Вас, напечатав очередное приглашение), ввести следующую команду и так далее. Всё просто! 
+\end{frame}
+
 \subsection{Навигация по ФС}
 
 \begin{frame}{Навигация по файловой системе}
+	\begin{itemize}
+		\item{Наберите команду \texttt{ls} и нажмите \texttt{Enter}. Вы увидите список файлов и каталогов, которые лежат в Вашем домашнем каталоге.}\pause
+		\item{Чтобы не захламлять домашний каталог, давайте создадим себе песочницу. Введите команду \texttt{mkdir sandbox}, после чего введите команду \texttt{cd sandbox}.}\pause
+		\item{Как Вы могли заметить, приглашение изменилось: теперь вместо тильды \texttt{\~} написано \texttt{sandbox}. Это значит, что \emph{текущий рабочий каталог} изменился.}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{tikzpicture} [
+		thick,
+		node distance=3.5cm,
+		text height=1.5ex,
+		text depth=.25ex,
+		auto
+	]
+		\node[workdir] (home1) {\ttfamily /home/alex};
 	
+		\pause
+		
+		\node[workdir,right of=home1] (home2) {\ttfamily /home/alex};
+		\node[dir,below of=home2] (sandbox2) {\ttfamily sandbox};
+		\path[->] (home2) edge (sandbox2);
+		\path[->, draw] (home1) ++(0.5,-2) -- node {\ttfamily mkdir sandbox} ++(2.5,0);
+		
+		\pause
+		
+		\node[dir,right of=home2] (home3) {\ttfamily /home/alex};
+		\node[workdir,below of=home3] (sandbox3) {\ttfamily sandbox};
+		\path[->] (home3) edge (sandbox3);
+		\path[->, draw] (home2) ++(0.5,-2) -- node {\ttfamily cd sandbox} ++(2.5,0);
+		
+		\pause[0]
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item{Если Вы забыли, в каком каталоге Вы сейчас находитесь, воспользуйтесь командой \texttt{pwd}}\pause
+		\item{\textbf{Замечание:} многие команды bash являются сокращениями. Так, \texttt{ls} --- это сокращение от \textbf{l}i\textbf{s}t directory contents (в англоязычной литературе использутся слово \emph{директория} вместо слова \emph{каталог}), \texttt{cd} --- \textbf{c}hange \textbf{d}irectory}, \texttt{mkdir} --- \textbf{m}a\textbf{k}e \textbf{dir}ectory, \texttt{pwd} --- \textbf{p}rint \textbf{w}orking \textbf{d}irectory и так далее.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\begin{itemize}
+		\item{Итак, создавать каталоги мы уже умеем. Давайте научимся их удалять. Создайте каталог \texttt{foo}, а затем удалите его с помощью команды \texttt{rmdir} (remove directory)}\pause
+		\item{Для создания файла подходит команда \texttt{touch}. Создайте с её помощью файл \texttt{bar.txt}}\pause
+		\item{Чтобы узнать атрибуты этого файла, наберите команду \texttt{ls~-l}. Параметр \texttt{-l} говорит программе \texttt{ls} печатать атрибуты файла, а не только его имя}
+	\end{itemize}
+{
+	\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+-rw-r--r-- 1 alex students 0 июл 18 14:06 bar.txt
+	\end{Verbatim}}
+{
+	\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+{\color{red}-rw-r--r--} 1 alex students 0 июл 18 14:06 bar.txt
+	\end{Verbatim}}
 \end{frame}
 
 \end{document}
