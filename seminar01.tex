@@ -1,3 +1,6 @@
+% print mode
+%\documentclass[handout]{beamer}
+% presentation mode
 \documentclass{beamer}
 \usetheme{Warsaw}
 \usepackage[utf8]{inputenc}
@@ -153,9 +156,22 @@
 \end{frame}
 
 \begin{frame}[fragile]
-	\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+	\begin{onlyenv}<0|handout:1>
+		\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
 {\color{red}-rwxr-xr-x} 1 alex students  11K июл  8 17:29 bar
-	\end{Verbatim}
+		\end{Verbatim}
+	\end{onlyenv}
+	\begin{onlyenv}<1|handout:0>
+		\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+{\color{red}-}rwxr-xr-x 1 alex students  11K июл  8 17:29 bar
+		\end{Verbatim}
+	\end{onlyenv}
+	\begin{onlyenv}<2-|handout:0>
+		\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+-{\color{red}rwxr-xr-x} 1 alex students  11K июл  8 17:29 bar
+		\end{Verbatim}
+	\end{onlyenv}
+
 	\begin{itemize}
 		\item{Первый символ отвечает за тип файла (в данном листинге есть только простые файлы и один каталог)}\pause
 		\item{Затем идут три rwx-группы: первая из них отвечает за права владельца файла (\texttt{alex}), вторая --- за права группы-владельца (\texttt{students}), а третья --- за права всех остальных пользователей}\pause
@@ -276,6 +292,10 @@ alex@localhost:~\$
 		
 		\pause[0]
 	\end{tikzpicture}
+	
+	\vphantom{A}
+	
+	{\color{gray} Текущий рабочий каталог обозначен более тёмным овалом }
 \end{frame}
 
 \begin{frame}
@@ -285,20 +305,132 @@ alex@localhost:~\$
 	\end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]
+\subsection{Создание и удаление файлов}
+
+\begin{frame}[fragile]{Создание и удаление файлов}
 	\begin{itemize}
 		\item{Итак, создавать каталоги мы уже умеем. Давайте научимся их удалять. Создайте каталог \texttt{foo}, а затем удалите его с помощью команды \texttt{rmdir} (remove directory)}\pause
 		\item{Для создания файла подходит команда \texttt{touch}. Создайте с её помощью файл \texttt{bar.txt}}\pause
 		\item{Чтобы узнать атрибуты этого файла, наберите команду \texttt{ls~-l}. Параметр \texttt{-l} говорит программе \texttt{ls} печатать атрибуты файла, а не только его имя}
 	\end{itemize}
-{
 	\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
 -rw-r--r-- 1 alex students 0 июл 18 14:06 bar.txt
-	\end{Verbatim}}
-{
-	\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
-{\color{red}-rw-r--r--} 1 alex students 0 июл 18 14:06 bar.txt
-	\end{Verbatim}}
+	\end{Verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+	По умолчанию \texttt{ls} печатает следующие атрибуты:\pause
+	\begin{itemize}
+		\item{Тип файла (файл, каталог, символическая ссылка и т.д.)}\pause
+		\item{Права доступа к файлу}\pause
+		\item{Число жёстких ссылок на этот файл (будут рассмотрены позднее)}\pause
+		\item{Владелец}\pause
+		\item{Группа-владелец}\pause
+		\item{Размер файла}\pause
+		\item{Дата и время последнего изменения}\pause
+		\item{Название файла}\pause[0]
+	\end{itemize}
+	
+	\begin{onlyenv}<1>
+		\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+-rw-r--r-- 1 alex students 0 июл 18 14:06 bar.txt
+		\end{Verbatim}
+	\end{onlyenv}
+	\begin{onlyenv}<2|handout:0>
+		\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+{\color{red}-}rw-r--r-- 1 alex students 0 июл 18 14:06 bar.txt
+		\end{Verbatim}
+	\end{onlyenv}
+	\begin{onlyenv}<3|handout:0>
+		\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+-{\color{red}rw-r--r--} 1 alex students 0 июл 18 14:06 bar.txt
+		\end{Verbatim}
+	\end{onlyenv}
+	\begin{onlyenv}<4|handout:0>
+		\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+-rw-r--r-- {\color{red}1} alex students 0 июл 18 14:06 bar.txt
+		\end{Verbatim}
+	\end{onlyenv}
+	\begin{onlyenv}<5|handout:0>
+		\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+-rw-r--r-- 1 {\color{red}alex} students 0 июл 18 14:06 bar.txt
+		\end{Verbatim}
+	\end{onlyenv}
+	\begin{onlyenv}<6|handout:0>
+		\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+-rw-r--r-- 1 alex {\color{red}students} 0 июл 18 14:06 bar.txt
+		\end{Verbatim}
+	\end{onlyenv}
+	\begin{onlyenv}<7|handout:0>
+		\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+-rw-r--r-- 1 alex students {\color{red}0} июл 18 14:06 bar.txt
+		\end{Verbatim}
+	\end{onlyenv}
+	\begin{onlyenv}<8|handout:0>
+		\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+-rw-r--r-- 1 alex students 0 {\color{red}июл 18 14:06} bar.txt
+		\end{Verbatim}
+	\end{onlyenv}
+	\begin{onlyenv}<9|handout:0>
+		\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`$=3\catcode`^=7\catcode`_=8}]
+-rw-r--r-- 1 alex students 0 июл 18 14:06 {\color{red}bar.txt}
+		\end{Verbatim}
+	\end{onlyenv}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item{Для того, чтобы изменить содержимое файла, нужно открыть его любым текстовым редактором, например, gedit (если у Вас стоит Ubuntu, то этот редактор у Вас наверняка есть)}\pause
+		\item{Наберите команду \texttt{gedit bar.txt}. Обратите внимание, что в терминале не появляется новое приглашение: bash ждёт, пока Вы закончите работу с gedit}\pause
+		\item{После того, как Вы закончили работу с текстовым редактором, \emph{сохранили изменения} и закрыли редактор, в терминале высветится очередное приглашение bash}\pause
+		\item{Снова выполните команду \texttt{ls~-l}, чтобы убедиться, что время изменения файла и его размер изменились}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item{Чтобы удалить файл, воспользуйтесь командой \texttt{rm}}\pause
+		\item{\textbf{Внимание!} Команда \texttt{rm} \emph{действительно удаляет} файлы, а не перемещает их в корзину. После такой экзекуции восстановление файла не всегда возможно и сопряжено с большими сложностями. Будьте аккуратны!}\pause
+		\item{Чтобы переименовать файл, можно воспользоваться командой \texttt{mv}. Например, если набрать \texttt{mv~foo~bar}, то файл \texttt{foo} получит новое имя (если же файла с таким именем не существует, то Вы получите сообщение об ошибке)}\pause
+		\item{Если файл \texttt{bar} при этом существовал до исполнения команды, он будет удалён}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item{Вообще, команда \texttt{mv} предназначена для перемещения файлов. Например, если у Вас есть каталог \texttt{subdir}, то команда \texttt{mv bar.txt subdir} приведёт к тому, что файл bar.txt переместится в каталог \texttt{subdir}}
+	\end{itemize}
+	\begin{tikzpicture} [
+		thick,
+		node distance=1.5cm,
+		text height=1.5ex,
+		text depth=.25ex,
+		auto
+	]
+		\pause
+		\coordinate (c1);
+		\node[workdir,above of=c1] (sandbox1) {\ttfamily sandbox};
+		\node[dir,left of=c1] (subdir1) {\ttfamily subdir};
+		\node[file,right of=c1] (bar1) {\ttfamily bar.txt};
+		\path[->] (sandbox1) edge (subdir1) edge (bar1);
+		
+		\pause
+		\coordinate[right of=bar1] (c2);
+		\coordinate[right of=c2] (c3);
+		\node[dir,right of=c3] (subdir2) {\ttfamily subdir};
+		\node[workdir,above of=subdir2] (sandbox2) {\ttfamily sandbox};
+		\node[file,below of=subdir2] (bar2) {\ttfamily bar.txt};
+		\path[->] (sandbox2) edge (subdir2);
+		\path[->] (subdir2) edge (bar2);
+		\path[->,draw] (sandbox1) ++(1.5,0) -- node {\ttfamily mv bar.txt subdir} ++(3,0);
+		
+		\pause[0]
+	\end{tikzpicture}
+\end{frame}
+
+\subsection{Запуск исполняемых файлов}
+\begin{frame}
+	
 \end{frame}
 
 \end{document}
