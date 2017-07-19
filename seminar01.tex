@@ -3,10 +3,12 @@
 % presentation mode
 \documentclass{beamer}
 \usetheme{Warsaw}
+\usepackage[T2A]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[russian]{babel}
 \usepackage{default}
 
+\usepackage{minted}
 
 \usepackage{fancyvrb}
 
@@ -429,8 +431,23 @@ alex@localhost:~\$
 \end{frame}
 
 \subsection{Запуск исполняемых файлов}
-\begin{frame}
+\begin{frame}{Запуск исполняемых файлов}
+	Создайте файл \texttt{arglist.sh} и наберите в нём следующий код:
 	
+	\inputminted[linenos]{bash}{arglist.sh}\pause
+	
+	Теперь выполните команду \texttt{chmod~+x~arglist.sh}. Теперь у нас есть простенький \emph{bash-скрипт}, который можно запустить. \pause
+	
+	Наберите команду \texttt{./arglist.sh arg1 arg2 arg3} и посмотрите, что выведет этот скрипт. Обратите внимание на символы ``\texttt{./}'': без этих символов bash решит, что требуется системная программа и, не найдя программу с нужным именем, выдаст ошибку.
+\end{frame}
+
+\begin{frame}{Аргументы запуска}
+	\begin{itemize}
+		\item{Скрипт вывел \emph{аргументы запуска} в том порядке, в котором они были указаны, каждый на своей строке}\pause
+		\item{Допустим, мы хотим создать файл с названием \texttt{long name with spaces.txt}. Если просто набрать команду \texttt{touch~long~name~with~spaces.txt}, то будут созданы четыре разных файла}\pause
+		\item{Чтобы решить эту проблему, нужно поставить двойные кавычки вокруг имени файла: \texttt{touch~"long~name~with~spaces.txt"}}\pause
+		\item{Помимо двойных кавычек, иногда используются одинарные.} % TODO сравнить двойные и одинарные кавычки
+	\end{itemize}
 \end{frame}
 
 \end{document}
