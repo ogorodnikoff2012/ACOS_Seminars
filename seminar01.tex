@@ -5,7 +5,7 @@
 % presentation mode
 \documentclass{beamer}
 
-\usetheme{Warsaw}
+\usetheme{Montpellier}
 \usepackage[T2A]{fontenc}
 \usepackage[utf8x]{inputenc}
 \usepackage[russian]{babel}
@@ -20,7 +20,7 @@
 
 \usepackage{graphicx}
 
-\title[АКОС --- семинар 1]{Общее знакомство с Unix-подобными ОС на примере Linux}
+\title{Общее знакомство с Unix-подобными ОС на примере Linux}
 \date{}
 	
 \tikzstyle{dir} = [
@@ -69,7 +69,7 @@
 	\maketitle
 \end{frame}
 
-\begin{frame}{Содержание}
+\begin{frame}[allowframebreaks]{Содержание}
 	\tableofcontents
 \end{frame}
 
@@ -453,8 +453,52 @@ alex@localhost:~\$
 
 \section{Часто используемые утилиты UNIX}
 
-\subsection{ls}
-\begin{frame}{\ttfamily ls}
+\subsection{GNU Coreutils}
+\begin{frame}{Часто используемые утилиты}
+	\begin{itemize}
+		\item{В UNIX есть большой набор часто используемых утилит, таких как \texttt{ls}, \texttt{chmod}, \texttt{cat}, \texttt{echo} и других}\pause
+		\item{Эти утилиты объединены в GNU Coreutils --- пакет, присутствующий во многих UNIX-подобных системах}\pause
+		\item{Помимо Coreutils, существует стандарт POSIX (Portable Operating System Interface for Unix), одна из версий которого (а точнее, POSIX.1-2008) описывает список утилит, которые должны присутствовать во всякой POSIX-совместимой системе (этот список является надмножеством Coreutils)}
+	\end{itemize}
+\end{frame}
+
+\subsection{man}
+\begin{frame}{\ttfamily man}
+	\begin{itemize}
+		\item{Для того, чтобы узнать, как пользоваться той или иной утилитой или функцией, существует программа \texttt{man} (от слова manual --- руководство)}\pause
+		\item{Большинство программ, установленных на Вашем компьютере, сопровождаются справочными материалами, которые можно просмотреть с помощью \texttt{man}}\pause
+		\item{Для того, чтобы получить информацию по утилите \texttt{ls}, наберите команду \texttt{man ls}} 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item{Справочные страницы man делятся на несколько разделов (о них можно узнать с помощью команды \texttt{man~man})}\pause
+		\item{Иногда в разных разделах встречаются страницы с одинаковым заголовком (например, \texttt{stat}). Для того, чтобы прочитать определённую страницу, нужно перед её названием написать номер раздела (например, \texttt{man~2~stat})}\pause
+		\item{Для того, чтобы узнать список доступных страниц, нужно воспользоваться командой \texttt{whatis}}\pause
+		\item{Для поиска нужной справочной страницы используется утилита \texttt{apropos} (вывод может быть длинным, поиск в Google чаще оказывается результативнее и умнее)}\pause
+		\item{Если обе утилиты не работают, возможно, у Вас не настроена база данных man. Чтобы это исправить, запустите команду \texttt{mandb} от имени суперпользователя (\texttt{sudo mandb}, потребует пароль)}
+	\end{itemize}
+\end{frame}
+
+\section{Программирование на bash}
+\begin{frame}
+\end{frame}
+
+\section{Компилятор GNU GCC}
+\begin{frame}
+\end{frame}
+
+\section{Системы контроля версий. Git}
+\begin{frame}
+\end{frame}
+
+\section{Профилировщик Valgrind}
+\begin{frame}
+\end{frame}
+
+\section{Консольные текстовые редакторы}
+\begin{frame}
 \end{frame}
 
 \end{document}
