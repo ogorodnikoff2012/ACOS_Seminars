@@ -63,6 +63,8 @@
 	drop shadow
 ]
 
+\definecolor{listing}{rgb}{0.95,0.95,0.95}
+
 \begin{document}
 
 \begin{frame}
@@ -244,7 +246,7 @@
 		Одним из основных способов взаимодействия с UNIX-системами являются командные оболочки UNIX. В некотором смысле это аналоги командной строки Windows. Наиболее часто используемая командная оболочка --- это \textbf{B}ourne \textbf{a}gain \textbf{sh}ell, она же bash.
 		
 		\begin{center}
-			\includegraphics[width=5cm]{bash}
+			\includegraphics[width=5cm]{files/01/bash.png}
 			
 			{\color{gray}\tiny Источник картинки: \color{blue}\url{https://habrahabr.ru/post/127084/}}
 		\end{center}
@@ -435,7 +437,8 @@ alex@localhost:~\$
 \begin{frame}{Запуск исполняемых файлов}
 	Создайте файл \texttt{arglist.sh} и наберите в нём следующий код:
 	
-	\inputminted[linenos]{bash}{arglist.sh}\pause
+	\label{arg_var_example}
+	\inputminted[linenos,bgcolor=listing]{bash}{files/01/arglist.sh}\pause
 	
 	Теперь выполните команду \texttt{chmod~+x~arglist.sh}. Теперь у нас есть простенький \emph{bash-скрипт}, который можно запустить. \pause
 	
@@ -482,7 +485,133 @@ alex@localhost:~\$
 \end{frame}
 
 \section{Программирование на bash}
+
+\subsection{Переменные}
+\begin{frame}{Переменные}
+	\begin{itemize}
+		\item{В UNIX-подобных системах существуют так называемые \emph{переменные окружения}. Они используются для того, чтобы регулировать работу программ. Например, переменная \texttt{PATH} содержит список каталогов, в которых bash ищет исполняемые файлы.}\pause
+		\item{У каждого процесса есть своя копия этого окружения, которая унаследована от родительского процесса. Благодаря этому у процессов нет возможности изменить глобальные настройки}\pause
+		\item{Помимо переменных окружения, есть ещё переменные командной оболочки. Они доступны только в рамках данного экземпляра командной оболочки.}
+	\end{itemize}
+\end{frame}
+
 \begin{frame}
+	\texttt{outer.sh}
+	\inputminted[linenos,bgcolor=listing]{bash}{files/01/outer.sh}
+	\texttt{inner.sh}
+	\inputminted[linenos,bgcolor=listing]{bash}{files/01/inner.sh}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item{Запустив \texttt{outer.sh}, Вы убедитесь, что только во второй раз переменная \texttt{foo} оказалась доступной в другом скрипте}\pause
+		\item{Обратите внимание на то, что в обоих скриптах используются строки в двойных кавычках. С одной стороны, если кавычки убрать вообще, то результат работы программы не изменится (теперь вместо одного аргумента \texttt{echo} будет получать несколько, но задача этой утилиты --- вывести все свои аргументы через пробел, если иное поведение не выбрано с помощью ключей). С другой, если заменить двойные кавычки одинарными, то подстановка переменных происходить не будет.}
+	\end{itemize}
+\end{frame}
+
+\subsection{Условный оператор}
+\begin{frame}{Оператор \texttt{if}}
+	\begin{itemize}
+		\item{В языке bash есть условный оператор \texttt{if}. Он имеет следующий синтаксис:}\pause
+	\end{itemize}
+	\vspace*{-\baselineskip}
+	\inputminted[linenos,bgcolor=listing]{bash}{files/01/if.sh}\pause
+	\vspace*{-\baselineskip}
+	\begin{itemize}
+		\item{\texttt{condition} --- это любая команда. Если эта команда успешно выполнена (с нулевым кодом возврата), условие считается выполненным}\pause
+		\item{Блок \texttt{else} не является обязательным}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item{Для работы с условным оператором очень удобно использовать утилиту \texttt{test}. Эта утилита позволяет сравнивать числа, строки, а также проверять наличие некоторых свойств у файлов}\pause
+		\item{Например, команда \texttt{if test -f foo.txt; then echo yes; fi} (точки с запятой эквивалентны переносам строк с точки зрения bash) выведет \texttt{yes}, если в текущем каталоге есть обычный файл \texttt{foo.txt}.}\pause
+		\item{Команда \texttt{test -f foo.txt} эквивалентна команде \texttt{[ -f foo.txt ]} (обратите внимание на пробелы после открывающей и перед закрывающей скобками)}
+	\end{itemize}
+\end{frame}
+
+\subsection{Циклы}
+\begin{frame}{Цикл \texttt{while}}
+	В bash есть цикл \texttt{while}. Его синтаксис похож на синтаксис условного оператора:\pause
+	\inputminted[linenos,bgcolor=listing]{bash}{files/01/while.sh}
+\end{frame}
+
+\begin{frame}{Цикл \texttt{for}}
+	\begin{itemize}
+		\item{Гораздо интереснее устроен цикл \texttt{for}. Он используется для итерирования по списку. Его синтаксис выглядит следующим образом:}\pause
+	\end{itemize}
+	\vspace*{-\baselineskip}
+	\inputminted[linenos,bgcolor=listing]{bash}{files/01/for.sh}\pause
+	\vspace*{-\baselineskip}
+	\begin{itemize}
+		\item{Часто в качестве элементов списка выступают слова или строки из вывода какой-нибудь программы. Для этого используется конструкция \texttt{\$(command)}}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\texttt{sum.sh}
+	\inputminted[linenos,bgcolor=listing]{bash}{files/01/sum.sh}\pause
+	\vspace*{-\baselineskip}
+	\begin{itemize}
+		\item{\texttt{seq} позволяет выводить арифметические прогрессии}\pause
+		\item{\texttt{let} нужен для целочисленной арифметики}
+	\end{itemize}
+\end{frame}
+
+\subsection{Аргументы}
+\begin{frame}{Аргументы}
+	\begin{itemize}
+		\item{При запуске скрипта ему можно передать некоторые аргументы. Для доступа к этим аргументам используются специальные переменные вида \texttt{\$0}, \texttt{\$1}, \texttt{\$2} и так далее (нулевая переменная содержит имя запускаемого скрипта)}\pause
+		\item{Если нужно получить все аргументы одним списком, можно воспользоваться переменной \texttt{\$@} (см. пример на слайде~\ref{arg_var_example})}
+	\end{itemize}
+\end{frame}
+
+\subsection{Ввод с клавиатуры, оператор case}
+\begin{frame}{Ввод с клавиатуры, оператор case}
+	\begin{itemize}
+		\item{Для ввода с клавиатуры подходит команда \texttt{read}. Замените строчку 3 в предыдущем листинге на такую: \texttt{read~-p~"Enter~N: "{} N}}\pause
+		\item{Часто бывает нужно проверить, подходит ли введённый текст под тот или иной шаблон. Можно воспользоваться оператором \texttt{if}, но он плохо приспособлен для такой задачи. Гороздо удобнее использовать оператор \texttt{case}}\pause
+		\item{Оператор \texttt{case} по очереди сравнивает переменную с шаблонами. Если находится подходящий шаблон, управление передаётся соответствующему блоку кода}\pause
+		\item{Подробнее о шаблонах можно прочитать в разделе Pattern Matching в руководстве к bash}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{minipage}{0,325\textwidth}
+		Синтаксис оператора \texttt{case}
+		\inputminted[linenos,fontsize=\tiny,bgcolor=listing]{bash}{files/01/case.sh}
+	\end{minipage}
+	\begin{minipage}{0,125\textwidth}
+		\invisible{qwerty}
+	\end{minipage}
+	\begin{minipage}{0,525\textwidth}
+		\texttt{odd\_even.sh}
+		\inputminted[linenos,fontsize=\tiny,bgcolor=listing]{bash}{files/01/odd_even.sh}
+	\end{minipage}
+\end{frame}
+
+\subsection{Ввод и вывод}
+\begin{frame}{Работа с файлами}
+	\begin{itemize}
+		\item{Часто возникает потребность вводить данные в программу не с клавиатуры, а из файла, а также записывать в файл результат её работы. Для этого используется \emph{перенаправление потоков ввода-вывода}}\pause
+		\item{Для того, чтобы заменить стандартный поток ввода файлом, необходимо в конце команды дописать \texttt{<filename} (если такого файла нет, возникнет ошибка)}\pause
+		\item{Для того, чтобы перенаправить вывод программы в файл, нужно дописать \texttt{>filename} (если файл отсутствует, он будет создан автоматически)}\pause
+		\item{Если необходимо дописать что-то к концу файла, а не перезаписывать его целиком, надо написать \texttt{>{}>filename}}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Конвейеры}
+	\begin{itemize}
+		\item{Допустим, нам нужно текст, полученный в результате работы программы A, отправить на вход программе B}\pause
+		\item{Возможное решение:}
+	\end{itemize}
+	\vspace*{-\baselineskip}
+	\inputminted[linenos,bgcolor=listing]{bash}{files/01/nopipe.sh}\pause
+	\vspace*{-\baselineskip}
+	\begin{itemize}
+		\item{К сожалению, это решение неудобное и не всегда возможное. Поэтому была создана концепция \emph{конвейера}: вместо временного файла в системе выделяется кольцевой буфер (очередь FIFO), в который один процесс пишет, а другой читает из этого буфера. Чтобы так сделать, нужно выполнить команду \texttt{./A~|~./B}}
+	\end{itemize}
 \end{frame}
 
 \section{Компилятор GNU GCC}

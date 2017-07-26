@@ -1,0 +1,6 @@
+if condition
+then
+    commands...
+else
+    commands...
+fi
