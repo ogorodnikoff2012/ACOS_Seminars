@@ -1,0 +1,78 @@
+\PassOptionsToPackage{unicode=true}{hyperref}
+
+% print mode
+%\documentclass[handout]{beamer}
+% presentation mode
+\documentclass{beamer}
+
+\usetheme{Montpellier}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{default}
+
+\usepackage{minted}
+
+\usepackage{fancyvrb}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows,shapes,shadows,calc}
+
+\usepackage{graphicx}
+
+
+\tikzstyle{dir} = [
+ellipse,
+thick,
+minimum size=1cm,
+draw=red!50!black!50,
+top color=white,
+bottom color=red!50!black!20,
+drop shadow
+]
+
+\tikzstyle{workdir} = [
+ellipse,
+thick,
+minimum size=1cm,
+draw=red!50!black!70,
+top color=white,
+bottom color=red!50!black!50,
+drop shadow
+]
+
+\tikzstyle{file} = [
+rounded rectangle,
+thick,
+minimum size=1cm,
+draw=blue!50!black!50,
+top color=white,
+bottom color=blue!50!black!20,
+drop shadow
+]
+
+\tikzstyle{blkdev} = [
+diamond,
+thick,
+minimum size=1cm,
+draw=yellow!50!black!50,
+top color=white,
+bottom color=yellow!50!black!20,
+drop shadow
+]
+
+\definecolor{listing}{rgb}{0.95,0.95,0.95}
+
+\title{Fucinkg title}
+\date{}
+
+\begin{document}
+\begin{frame}
+	\maketitle
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Содержание}
+	\tableofcontents
+\end{frame}
+
+\end{document}

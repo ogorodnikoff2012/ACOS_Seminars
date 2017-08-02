@@ -1,0 +1,135 @@
+\PassOptionsToPackage{unicode=true}{hyperref}
+
+% print mode
+%\documentclass[handout]{beamer}
+% presentation mode
+\documentclass{beamer}
+
+\usetheme{Montpellier}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{default}
+
+\usepackage{minted}
+
+\usepackage{fancyvrb}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows,shapes,shadows,calc}
+
+\usepackage{graphicx}
+
+
+\tikzstyle{dir} = [
+ellipse,
+thick,
+minimum size=1cm,
+draw=red!50!black!50,
+top color=white,
+bottom color=red!50!black!20,
+drop shadow
+]
+
+\tikzstyle{workdir} = [
+ellipse,
+thick,
+minimum size=1cm,
+draw=red!50!black!70,
+top color=white,
+bottom color=red!50!black!50,
+drop shadow
+]
+
+\tikzstyle{file} = [
+rounded rectangle,
+thick,
+minimum size=1cm,
+draw=blue!50!black!50,
+top color=white,
+bottom color=blue!50!black!20,
+drop shadow
+]
+
+\tikzstyle{blkdev} = [
+diamond,
+thick,
+minimum size=1cm,
+draw=yellow!50!black!50,
+top color=white,
+bottom color=yellow!50!black!20,
+drop shadow
+]
+
+\definecolor{listing}{rgb}{0.95,0.95,0.95}
+
+\title{Программирование на языке Си}
+\date{}
+
+\begin{document}
+	
+\begin{frame}
+	\maketitle
+\end{frame}
+	
+\begin{frame}[allowframebreaks]{Содержание}
+	\tableofcontents
+\end{frame}
+	
+\section{Компилятор GNU GCC}
+
+\subsection{Компиляция}
+\begin{frame}{Компилятор GNU GCC}
+	\begin{itemize}
+		\item{Существует множество компиляторов для языка Си. Наиболее популярным компилятором является GNU GCC}\pause
+		\item{Наберите следующий пример программы на Си:}
+	\end{itemize}
+	\vspace*{-\baselineskip}
+	\inputminted[linenos,bgcolor=listing]{C}{files/c_programming_langauge/hello.c}\pause
+	\vspace*{-\baselineskip}
+	\begin{itemize}
+		\item{Сохраните его под именем \texttt{hello.c} и выполните команду \texttt{gcc~-o~hello~hello.c}}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item{Теперь в Вашем рабочем каталоге появился исполняемый файл \texttt{hello}. Запустите его командой \texttt{./hello}}\pause
+		\item{Почти все программы на Си состоят из нескольких исходных файлов. Процесс их сборки немного сложнее, чем для программы из одного файла. Он будет рассмотрен подробно на соответствующем семинаре.}\pause
+		\item{Компилятор GCC поддерживает много разнообразных опций. Например, ключи \texttt{-O0}, \texttt{-O1}, \texttt{-O2} и \texttt{-O3} задают то, какие оптимизации будет применять компилятор (0 --- без оптимизаций, применяется для отладки, 1 --- базовые оптимизации, 2 --- стабильные оптимизации, 3 --- экспериментальные оптимизации)}\pause
+		\item{Часто используется опция \texttt{-g}. Она необходима для добавления к исполняемому файлу отладочной информации}
+	\end{itemize}
+\end{frame}
+
+\subsection{Отладка с помощью GDB}
+\begin{frame}{Отладка с помощью GDB}
+	\begin{itemize}
+		\item{Для того, чтобы понять, как работает программа и где в ней ошибка, часто бывает полезен \emph{отладчик}: это программа, с помощью которой можно шаг за шагом проследить за ходом работы отлаживаемой программы}\pause
+		\item{Пересоберите программу \texttt{hello} с ключом \texttt{-g} и запустите отладчик: \texttt{gdb ./hello}}\pause
+		\item{Добавьте точку останова --- строчку, на которой необходимо прервать выполнение программы. Для этого наберите команду \texttt{b main} (b --- это сокращение от \emph{breakpoint}, слово main в качестве аргумента говорит отладчику, что нужно остановиться перед первой инструкцией функции \texttt{main})}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item{Теперь нужно запустить программу с помощью команды \texttt{r} (многие часто используемые команды сокращены до одной буквы)}\pause
+		\item{Отладчик вывел, что программа остановлена на строчке 4}\pause
+		\item{Чтобы перейти к следующей строчке, наберите команду \texttt{n} (сокращение от \emph{next})}\pause
+		\item{Если нажать на \texttt{Enter} (ввести пустую команду), то gdb повторит предыдущую}\pause
+		\item{Если на текущей строке есть вызов функции, и Вы хотите спуститься внутрь этой функции, воспользуйтесь командой \texttt{s} (сокращение от \emph{step})}\pause
+		\item{Если нужно, наоборот, выйти из функции, воспользуйтесь командой \texttt{fin}}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item{Допустим, нам нужно узнать, чему равна переменная \texttt{i}. Для этого введём команду \texttt{p i} (сокращение от \emph{print})}\pause
+		\item{Выводить можно не только значения переменных, но и любых выражений, вычисление которых не изменит состояния программы (в терминологии C++11, только constexpr-выражения)}\pause
+		\item{Если необходимо видеть значение выражения постоянно, замените команду \texttt{p} командой \texttt{d} (от \emph{display})}\pause
+		\item{Чтобы видеть текст программы, воспользуйтесь либо командой \texttt{l}, которая выведет часть исходного текста вокруг текущей строчки, либо командой \texttt{+}, которая переведёт gdb в псевдографический режим}\pause
+		\item{Если отладка данной части кода завершена, и Вы хотите перейти к следующей точке останова, воспользуйтесь командой \texttt{c} (от \emph{continue})}\pause
+		\item{Для выхода служит команда \texttt{q}}
+	\end{itemize}
+\end{frame}
+	
+\end{document}

@@ -20,53 +20,53 @@
 
 \usepackage{graphicx}
 
-\title{Общее знакомство с Unix-подобными ОС на примере Linux}
-\date{}
-	
+
 \tikzstyle{dir} = [
-	ellipse,
-	thick,
-	minimum size=1cm,
-	draw=red!50!black!50,
-	top color=white,
-	bottom color=red!50!black!20,
-	drop shadow
+ellipse,
+thick,
+minimum size=1cm,
+draw=red!50!black!50,
+top color=white,
+bottom color=red!50!black!20,
+drop shadow
 ]
 
 \tikzstyle{workdir} = [
-	ellipse,
-	thick,
-	minimum size=1cm,
-	draw=red!50!black!70,
-	top color=white,
-	bottom color=red!50!black!50,
-	drop shadow
+ellipse,
+thick,
+minimum size=1cm,
+draw=red!50!black!70,
+top color=white,
+bottom color=red!50!black!50,
+drop shadow
 ]
-	
+
 \tikzstyle{file} = [
-	rounded rectangle,
-	thick,
-	minimum size=1cm,
-	draw=blue!50!black!50,
-	top color=white,
-	bottom color=blue!50!black!20,
-	drop shadow
+rounded rectangle,
+thick,
+minimum size=1cm,
+draw=blue!50!black!50,
+top color=white,
+bottom color=blue!50!black!20,
+drop shadow
 ]
 
 \tikzstyle{blkdev} = [
-	diamond,
-	thick,
-	minimum size=1cm,
-	draw=yellow!50!black!50,
-	top color=white,
-	bottom color=yellow!50!black!20,
-	drop shadow
+diamond,
+thick,
+minimum size=1cm,
+draw=yellow!50!black!50,
+top color=white,
+bottom color=yellow!50!black!20,
+drop shadow
 ]
 
 \definecolor{listing}{rgb}{0.95,0.95,0.95}
 
-\begin{document}
+\title{Общее знакомство с Unix-подобными ОС на примере Linux}
+\date{}
 
+\begin{document}
 \begin{frame}
 	\maketitle
 \end{frame}
@@ -75,43 +75,44 @@
 	\tableofcontents
 \end{frame}
 
+
 \section{Особенности файловой системы}
 \subsection{Отличия от ФС Windows}
 \begin{frame}{Особенности ФС Unix}
 	В отличие от ФС Windows, каталоги в ФС Unix образуют единое дерево: нет привычных дисков C:, D: и так далее
 	
 	\begin{tikzpicture}[
-		align=center,
-		thick,
-		node distance=1.5cm,
-		text height=1.5ex,
-		text depth=.25ex,
-		auto
+	align=center,
+	thick,
+	node distance=1.5cm,
+	text height=1.5ex,
+	text depth=.25ex,
+	auto
 	]
 	
-		\node[dir] (etc) {etc};
-		\node[dir,right of=etc] (var) {var};
-		\node[dir,right of=var] (usr) {usr};
-		\node[dir,right of=usr] (bin) {bin};
-		\node[dir,right of=bin] (dev) {dev};
-		\node[dir,right of=dev] (home) {home};
-		
-		\node[dir,above of=var] (root) at ($(bin)!0.5!(usr)$) {/};
-
-		\node[file,below of=etc] (passwd) {passwd};
-		\node[dir,below of=usr] (lib) {lib};
-		\node[dir,below of=var] (usrbin) {bin};
-		\node[file,below of=bin] (bash) {bash};
-		\node[blkdev,below of=dev] (sda) {sda};
-		\node[dir,below of=home] (alex) {alex};
-		\node[dir,right of=alex] (bob) {bob};
-
-		\path[->] (root) edge (etc) edge (var) edge (usr) edge (bin) edge (dev) edge (home);
-		\path[->] (etc) edge (passwd);
-		\path[->] (usr) edge (usrbin) edge (lib);
-		\path[->] (bin) edge (bash);
-		\path[->] (dev) edge (sda);
-		\path[->] (home) edge (alex) edge (bob);
+	\node[dir] (etc) {etc};
+	\node[dir,right of=etc] (var) {var};
+	\node[dir,right of=var] (usr) {usr};
+	\node[dir,right of=usr] (bin) {bin};
+	\node[dir,right of=bin] (dev) {dev};
+	\node[dir,right of=dev] (home) {home};
+	
+	\node[dir,above of=var] (root) at ($(bin)!0.5!(usr)$) {/};
+	
+	\node[file,below of=etc] (passwd) {passwd};
+	\node[dir,below of=usr] (lib) {lib};
+	\node[dir,below of=var] (usrbin) {bin};
+	\node[file,below of=bin] (bash) {bash};
+	\node[blkdev,below of=dev] (sda) {sda};
+	\node[dir,below of=home] (alex) {alex};
+	\node[dir,right of=alex] (bob) {bob};
+	
+	\path[->] (root) edge (etc) edge (var) edge (usr) edge (bin) edge (dev) edge (home);
+	\path[->] (etc) edge (passwd);
+	\path[->] (usr) edge (usrbin) edge (lib);
+	\path[->] (bin) edge (bash);
+	\path[->] (dev) edge (sda);
+	\path[->] (home) edge (alex) edge (bob);
 	\end{tikzpicture}
 \end{frame}
 
@@ -135,7 +136,7 @@
 \begin{frame}{Права доступа}
 	В файловой системе UNIX с каждым файлом, помимо имени, связан набор \emph{атрибутов}:\pause
 	\begin{itemize}
-%		\item{Имя файла}\pause
+		%		\item{Имя файла}\pause
 		\item{Каталог, в котором файл лежит}\pause
 		\item{Владелец файла}\pause
 		\item{Время создания, последней модификации, последнего обращения к файлу}\pause
@@ -176,7 +177,7 @@
 -{\color{red}rwxr-xr-x} 1 alex students  11K июл  8 17:29 bar
 		\end{Verbatim}
 	\end{onlyenv}
-
+	
 	\begin{itemize}
 		\item{Первый символ отвечает за тип файла (в данном листинге есть только простые файлы и один каталог)}\pause
 		\item{Затем идут три rwx-группы: первая из них отвечает за права владельца файла (\texttt{alex}), вторая --- за права группы-владельца (\texttt{students}), а третья --- за права всех остальных пользователей}\pause
@@ -243,13 +244,13 @@
 \section{Знакомство с bash}
 
 \begin{frame}{Знакомство с bash}
-		Одним из основных способов взаимодействия с UNIX-системами являются командные оболочки UNIX. В некотором смысле это аналоги командной строки Windows. Наиболее часто используемая командная оболочка --- это \textbf{B}ourne \textbf{a}gain \textbf{sh}ell, она же bash.
+	Одним из основных способов взаимодействия с UNIX-системами являются командные оболочки UNIX. В некотором смысле это аналоги командной строки Windows. Наиболее часто используемая командная оболочка --- это \textbf{B}ourne \textbf{a}gain \textbf{sh}ell, она же bash.
+	
+	\begin{center}
+		\includegraphics[width=5cm]{files/unix_quickstart/bash.png}
 		
-		\begin{center}
-			\includegraphics[width=5cm]{files/01/bash.png}
-			
-			{\color{gray}\tiny Источник картинки: \color{blue}\url{https://habrahabr.ru/post/127084/}}
-		\end{center}
+		{\color{gray}\tiny Источник картинки: \color{blue}\url{https://habrahabr.ru/post/127084/}}
+	\end{center}
 \end{frame}
 
 \begin{frame}[fragile]{Начало работы}
@@ -273,29 +274,29 @@ alex@localhost:~\$
 
 \begin{frame}
 	\begin{tikzpicture} [
-		thick,
-		node distance=3.5cm,
-		text height=1.5ex,
-		text depth=.25ex,
-		auto
+	thick,
+	node distance=3.5cm,
+	text height=1.5ex,
+	text depth=.25ex,
+	auto
 	]
-		\node[workdir] (home1) {\ttfamily /home/alex};
+	\node[workdir] (home1) {\ttfamily /home/alex};
 	
-		\pause
-		
-		\node[workdir,right of=home1] (home2) {\ttfamily /home/alex};
-		\node[dir,below of=home2] (sandbox2) {\ttfamily sandbox};
-		\path[->] (home2) edge (sandbox2);
-		\path[->, draw] (home1) ++(0.5,-2) -- node {\ttfamily mkdir sandbox} ++(2.5,0);
-		
-		\pause
-		
-		\node[dir,right of=home2] (home3) {\ttfamily /home/alex};
-		\node[workdir,below of=home3] (sandbox3) {\ttfamily sandbox};
-		\path[->] (home3) edge (sandbox3);
-		\path[->, draw] (home2) ++(0.5,-2) -- node {\ttfamily cd sandbox} ++(2.5,0);
-		
-		\pause[0]
+	\pause
+	
+	\node[workdir,right of=home1] (home2) {\ttfamily /home/alex};
+	\node[dir,below of=home2] (sandbox2) {\ttfamily sandbox};
+	\path[->] (home2) edge (sandbox2);
+	\path[->, draw] (home1) ++(0.5,-2) -- node {\ttfamily mkdir sandbox} ++(2.5,0);
+	
+	\pause
+	
+	\node[dir,right of=home2] (home3) {\ttfamily /home/alex};
+	\node[workdir,below of=home3] (sandbox3) {\ttfamily sandbox};
+	\path[->] (home3) edge (sandbox3);
+	\path[->, draw] (home2) ++(0.5,-2) -- node {\ttfamily cd sandbox} ++(2.5,0);
+	
+	\pause[0]
 	\end{tikzpicture}
 	
 	\vphantom{A}
@@ -406,30 +407,30 @@ alex@localhost:~\$
 		\item{Вообще, команда \texttt{mv} предназначена для перемещения файлов. Например, если у Вас есть каталог \texttt{subdir}, то команда \texttt{mv bar.txt subdir} приведёт к тому, что файл bar.txt переместится в каталог \texttt{subdir}}
 	\end{itemize}
 	\begin{tikzpicture} [
-		thick,
-		node distance=1.5cm,
-		text height=1.5ex,
-		text depth=.25ex,
-		auto
+	thick,
+	node distance=1.5cm,
+	text height=1.5ex,
+	text depth=.25ex,
+	auto
 	]
-		\pause
-		\coordinate (c1);
-		\node[workdir,above of=c1] (sandbox1) {\ttfamily sandbox};
-		\node[dir,left of=c1] (subdir1) {\ttfamily subdir};
-		\node[file,right of=c1] (bar1) {\ttfamily bar.txt};
-		\path[->] (sandbox1) edge (subdir1) edge (bar1);
-		
-		\pause
-		\coordinate[right of=bar1] (c2);
-		\coordinate[right of=c2] (c3);
-		\node[dir,right of=c3] (subdir2) {\ttfamily subdir};
-		\node[workdir,above of=subdir2] (sandbox2) {\ttfamily sandbox};
-		\node[file,below of=subdir2] (bar2) {\ttfamily bar.txt};
-		\path[->] (sandbox2) edge (subdir2);
-		\path[->] (subdir2) edge (bar2);
-		\path[->,draw] (sandbox1) ++(1.5,0) -- node {\ttfamily mv bar.txt subdir} ++(3,0);
-		
-		\pause[0]
+	\pause
+	\coordinate (c1);
+	\node[workdir,above of=c1] (sandbox1) {\ttfamily sandbox};
+	\node[dir,left of=c1] (subdir1) {\ttfamily subdir};
+	\node[file,right of=c1] (bar1) {\ttfamily bar.txt};
+	\path[->] (sandbox1) edge (subdir1) edge (bar1);
+	
+	\pause
+	\coordinate[right of=bar1] (c2);
+	\coordinate[right of=c2] (c3);
+	\node[dir,right of=c3] (subdir2) {\ttfamily subdir};
+	\node[workdir,above of=subdir2] (sandbox2) {\ttfamily sandbox};
+	\node[file,below of=subdir2] (bar2) {\ttfamily bar.txt};
+	\path[->] (sandbox2) edge (subdir2);
+	\path[->] (subdir2) edge (bar2);
+	\path[->,draw] (sandbox1) ++(1.5,0) -- node {\ttfamily mv bar.txt subdir} ++(3,0);
+	
+	\pause[0]
 	\end{tikzpicture}
 \end{frame}
 
@@ -438,7 +439,7 @@ alex@localhost:~\$
 	Создайте файл \texttt{arglist.sh} и наберите в нём следующий код:
 	
 	\label{arg_var_example}
-	\inputminted[linenos,bgcolor=listing]{bash}{files/01/arglist.sh}\pause
+	\inputminted[linenos,bgcolor=listing]{bash}{files/unix_quickstart/arglist.sh}\pause
 	\vspace*{-\baselineskip}
 	
 	Теперь выполните команду \texttt{chmod~+x~arglist.sh}. Теперь у нас есть простенький \emph{bash-скрипт}, который можно запустить. \pause
@@ -498,9 +499,9 @@ alex@localhost:~\$
 
 \begin{frame}
 	\texttt{outer.sh}
-	\inputminted[linenos,bgcolor=listing]{bash}{files/01/outer.sh}
+	\inputminted[linenos,bgcolor=listing]{bash}{files/unix_quickstart/outer.sh}
 	\texttt{inner.sh}
-	\inputminted[linenos,bgcolor=listing]{bash}{files/01/inner.sh}
+	\inputminted[linenos,bgcolor=listing]{bash}{files/unix_quickstart/inner.sh}
 \end{frame}
 
 \begin{frame}
@@ -516,7 +517,7 @@ alex@localhost:~\$
 		\item{В языке bash есть условный оператор \texttt{if}. Он имеет следующий синтаксис:}\pause
 	\end{itemize}
 	\vspace*{-\baselineskip}
-	\inputminted[linenos,bgcolor=listing]{bash}{files/01/if.sh}\pause
+	\inputminted[linenos,bgcolor=listing]{bash}{files/unix_quickstart/if.sh}\pause
 	\vspace*{-\baselineskip}
 	\begin{itemize}
 		\item{\texttt{condition} --- это любая команда. Если эта команда успешно выполнена (с нулевым кодом возврата), условие считается выполненным}\pause
@@ -535,7 +536,7 @@ alex@localhost:~\$
 \subsection{Циклы}
 \begin{frame}{Цикл \texttt{while}}
 	В bash есть цикл \texttt{while}. Его синтаксис похож на синтаксис условного оператора:\pause
-	\inputminted[linenos,bgcolor=listing]{bash}{files/01/while.sh}
+	\inputminted[linenos,bgcolor=listing]{bash}{files/unix_quickstart/while.sh}
 \end{frame}
 
 \begin{frame}{Цикл \texttt{for}}
@@ -543,7 +544,7 @@ alex@localhost:~\$
 		\item{Гораздо интереснее устроен цикл \texttt{for}. Он используется для итерирования по списку. Его синтаксис выглядит следующим образом:}\pause
 	\end{itemize}
 	\vspace*{-\baselineskip}
-	\inputminted[linenos,bgcolor=listing]{bash}{files/01/for.sh}\pause
+	\inputminted[linenos,bgcolor=listing]{bash}{files/unix_quickstart/for.sh}\pause
 	\vspace*{-\baselineskip}
 	\begin{itemize}
 		\item{Часто в качестве элементов списка выступают слова или строки из вывода какой-нибудь программы. Для этого используется конструкция \texttt{\$(command)}}
@@ -552,7 +553,7 @@ alex@localhost:~\$
 
 \begin{frame}
 	\texttt{sum.sh}
-	\inputminted[linenos,bgcolor=listing]{bash}{files/01/sum.sh}\pause
+	\inputminted[linenos,bgcolor=listing]{bash}{files/unix_quickstart/sum.sh}\pause
 	\vspace*{-\baselineskip}
 	\begin{itemize}
 		\item{\texttt{seq} позволяет выводить арифметические прогрессии}\pause
@@ -582,14 +583,14 @@ alex@localhost:~\$
 \begin{frame}
 	\begin{minipage}{0,325\textwidth}
 		Синтаксис оператора \texttt{case}
-		\inputminted[linenos,fontsize=\tiny,bgcolor=listing]{bash}{files/01/case.sh}
+		\inputminted[linenos,fontsize=\tiny,bgcolor=listing]{bash}{files/unix_quickstart/case.sh}
 	\end{minipage}
 	\begin{minipage}{0,125\textwidth}
 		\invisible{qwerty}
 	\end{minipage}
 	\begin{minipage}{0,525\textwidth}
 		\texttt{odd\_even.sh}
-		\inputminted[linenos,fontsize=\tiny,bgcolor=listing]{bash}{files/01/odd_even.sh}
+		\inputminted[linenos,fontsize=\tiny,bgcolor=listing]{bash}{files/unix_quickstart/odd_even.sh}
 	\end{minipage}
 \end{frame}
 
@@ -609,7 +610,7 @@ alex@localhost:~\$
 		\item{Возможное решение:}
 	\end{itemize}
 	\vspace*{-\baselineskip}
-	\inputminted[linenos,bgcolor=listing]{bash}{files/01/nopipe.sh}\pause
+	\inputminted[linenos,bgcolor=listing]{bash}{files/unix_quickstart/nopipe.sh}\pause
 	\vspace*{-\baselineskip}
 	\begin{itemize}
 		\item{К сожалению, это решение неудобное и не всегда возможное. Поэтому была создана концепция \emph{конвейера}: вместо временного файла в системе выделяется кольцевой буфер (очередь FIFO), в который один процесс пишет, а другой читает из этого буфера. Чтобы так сделать, нужно выполнить команду \texttt{./A~|~./B}}
@@ -618,80 +619,40 @@ alex@localhost:~\$
 
 \subsection{Массивы}
 \begin{frame}{Массивы}
-	\inputminted[linenos,bgcolor=listing]{bash}{files/01/arrays.sh}
+	\inputminted[linenos,bgcolor=listing]{bash}{files/unix_quickstart/arrays.sh}
 \end{frame}
 
 \subsection{Функции}
 \begin{frame}{Функции}
-	\inputminted[linenos,bgcolor=listing]{bash}{files/01/functions.sh}
+	\inputminted[linenos,bgcolor=listing]{bash}{files/unix_quickstart/functions.sh}
 \end{frame}
 
-\section{Компилятор GNU GCC}
+\section{Пакеты и пакетные менеджеры. Дистрибутивы}
 
-\subsection{Компиляция}
-\begin{frame}{Компилятор GNU GCC}
+\begin{frame}{Пакетные менеджеры}
 	\begin{itemize}
-		\item{Существует множество компиляторов для языка Си. Наиболее популярным компилятором является GNU GCC}\pause
-		\item{Наберите следующий пример программы на Си:}
-	\end{itemize}
-	\vspace*{-\baselineskip}
-	\inputminted[linenos,bgcolor=listing]{C}{files/01/hello.c}\pause
-	\vspace*{-\baselineskip}
-	\begin{itemize}
-		\item{Сохраните его под именем \texttt{hello.c} и выполните команду \texttt{gcc~-o~hello~hello.c}}
+		\item{В большинстве дистрибутивов Linux и других UNIX-подобных систем для удобства установки, настройки, обновления и удаления программ используются \emph{пакетные менеджеры}}\pause
+		\item{Пакетные менеджеры оперируют \emph{пакетами} --- специальными архивами, которые содержат саму программу, файлы, необходимые ей для работы и метаданные для корректной работы самого менеджера (полное название пакета, описание, версия, контрольная сумма, зависимости от других пакетов и так далее)}\pause
+		\item{Для хранения пакетов используются специальные сервера, которые называются \emph{репозитории}}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\begin{itemize}
-		\item{Теперь в Вашем рабочем каталоге появился исполняемый файл \texttt{hello}. Запустите его командой \texttt{./hello}}\pause
-		\item{Почти все программы на Си состоят из нескольких исходных файлов. Процесс их сборки немного сложнее, чем для программы из одного файла. Он будет рассмотрен подробно на соответствующем семинаре.}\pause
-		\item{Компилятор GCC поддерживает много разнообразных опций. Например, ключи \texttt{-O0}, \texttt{-O1}, \texttt{-O2} и \texttt{-O3} задают то, какие оптимизации будет применять компилятор (0 --- без оптимизаций, применяется для отладки, 1 --- базовые оптимизации, 2 --- стабильные оптимизации, 3 --- экспериментальные оптимизации)}\pause
-		\item{Часто используется опция \texttt{-g}. Она необходима для добавления к исполняемому файлу отладочной информации}
+		\item{В разных дистрибутивах Linux используются разные пакетные менеджеры. Наиболее популярным является RPM --- Red Hat Package Manager. Он используется в RHEL, Fedora, openSUSE, ALT Linux и многих других}\pause
+		\item{В дистрибутивах на базе Debian (к ним относится и Ubuntu) используется dpkg, пакеты имеют расширение \texttt{.deb}}\pause
+		\item{Существуют и другие, менее распространённые пакетные менеджеры. Так, в Arch Linux используется pacman, в Gentoo --- portage}\pause
+		\item{Также пакетными менеджерами являются такие системы, как Play Market и App Store}\pause
+		\item{Стоит отметить, что разные пакетные менеджеры не совместимы друг с другом, и использование разных пакетных менеджеров на одной машине --- не лучшая идея}
 	\end{itemize}
 \end{frame}
 
-\subsection{Отладка с помощью GDB}
-\begin{frame}{Отладка с помощью GDB}
+\begin{frame}{Дистрибутивы}
 	\begin{itemize}
-		\item{Для того, чтобы понять, как работает программа и где в ней ошибка, часто бывает полезен \emph{отладчик}: это программа, с помощью которой можно шаг за шагом проследить за ходом работы отлаживаемой программы}\pause
-		\item{Пересоберите программу \texttt{hello} с ключом \texttt{-g} и запустите отладчик: \texttt{gdb ./hello}}\pause
-		\item{Добавьте точку останова --- строчку, на которой необходимо прервать выполнение программы. Для этого наберите команду \texttt{b main} (b --- это сокращение от \emph{breakpoint}, слово main в качестве аргумента говорит отладчику, что нужно остановиться перед первой инструкцией функции \texttt{main})}
+		\item{Во многих дистрибутивах Linux ядро операционной системы и системное ПО тоже распространяется в виде пакета: это позволяет сильно упростить обновление системных компонентов}\pause
+		\item{Единственная задача, с которой пакетный менеджер справиться не в состоянии --- это установка новой системы на чистый компьютер. Для этой задачи используются \emph{дистрибутивы}}\pause
+		\item{Дистрибутив содержит программу для начальной инициализации системы, программу-установщик и набор пакетов}
 	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\begin{itemize}
-		\item{Теперь нужно запустить программу с помощью команды \texttt{r} (многие часто используемые команды сокращены до одной буквы)}\pause
-		\item{Отладчик вывел, что программа остановлена на строчке 4}\pause
-		\item{Чтобы перейти к следующей строчке, наберите команду \texttt{n} (сокращение от \emph{next})}\pause
-		\item{Если нажать на \texttt{Enter} (ввести пустую команду), то gdb повторит предыдущую}\pause
-		\item{Если на текущей строке есть вызов функции, и Вы хотите спуститься внутрь этой функции, воспользуйтесь командой \texttt{s} (сокращение от \emph{step})}\pause
-		\item{Если нужно, наоборот, выйти из функции, воспользуйтесь командой \texttt{fin}}
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\begin{itemize}
-		\item{Допустим, нам нужно узнать, чему равна переменная \texttt{i}. Для этого введём команду \texttt{p i} (сокращение от \emph{print})}\pause
-		\item{Выводить можно не только значения переменных, но и любых выражений, вычисление которых не изменит состояния программы (в терминологии C++11, только constexpr-выражения)}\pause
-		\item{Если необходимо видеть значение выражения постоянно, замените команду \texttt{p} командой \texttt{d} (от \emph{display})}\pause
-		\item{Чтобы видеть текст программы, воспользуйтесь либо командой \texttt{l}, которая выведет часть исходного текста вокруг текущей строчки, либо командой \texttt{+}, которая переведёт gdb в псевдографический режим}\pause
-		\item{Если отладка данной части кода завершена, и Вы хотите перейти к следующей точке останова, воспользуйтесь командой \texttt{c} (от \emph{continue})}\pause
-		\item{Для выхода служит команда \texttt{q}}
-	\end{itemize}
-\end{frame}
-
-\section{Системы контроля версий. Git}
-\begin{frame}
-\end{frame}
-
-\section{Профилировщик Valgrind}
-\begin{frame}
-\end{frame}
-
-\section{Консольные текстовые редакторы}
-\begin{frame}
 \end{frame}
 
 \end{document}
