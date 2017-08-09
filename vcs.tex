@@ -20,44 +20,35 @@
 
 \usepackage{graphicx}
 
-
-\tikzstyle{dir} = [
-ellipse,
-thick,
-minimum size=1cm,
-draw=red!50!black!50,
-top color=white,
-bottom color=red!50!black!20,
-drop shadow
-]
-
-\tikzstyle{workdir} = [
-ellipse,
-thick,
-minimum size=1cm,
-draw=red!50!black!70,
-top color=white,
-bottom color=red!50!black!50,
-drop shadow
-]
-
 \tikzstyle{file} = [
-rounded rectangle,
+rounded corners=0.2cm,
+thick,
+minimum size=1cm,
+draw=green!50!black!50,
+top color=white,
+bottom color=green!50!black!30,
+drop shadow
+]
+
+\tikzstyle{oldfile} = [
+rounded corners=0.2cm,
+thick,
+dashed,
+minimum size=1cm,
+draw=green!50!black!50,
+top color=white,
+bottom color=green!50!black!10,
+drop shadow
+]
+
+\tikzstyle{commit} = [
+%rectangle,
+rounded corners=0.2cm,
 thick,
 minimum size=1cm,
 draw=blue!50!black!50,
 top color=white,
 bottom color=blue!50!black!20,
-drop shadow
-]
-
-\tikzstyle{blkdev} = [
-diamond,
-thick,
-minimum size=1cm,
-draw=yellow!50!black!50,
-top color=white,
-bottom color=yellow!50!black!20,
 drop shadow
 ]
 
@@ -71,7 +62,7 @@ drop shadow
 	\maketitle
 \end{frame}
 
-\begin{frame}[allowframebreaks]{Содержание}
+\begin{frame}{Содержание}
 	\tableofcontents
 \end{frame}
 
@@ -79,30 +70,78 @@ drop shadow
 
 \begin{frame}{Предпосылки создания СКВ}
 	\begin{itemize}
-		\item{При разработке различных проектов очень часто возникает необходимость как-то хранить предыдущие версии проекта: например, в текущей версии есть ошибка, и нужно вернуться к той реализации, которая была в прошлых версиях. Кроме того, наличие резервных копий помогает избежать многих неприятностей}\pause
-		\item{Самый примитивный способ --- это просто делать архивы с исходниками. Проблемы начинаются при совместной работе. Совмещать разные версии большого проекта, тем более вручную, тем более в том случае, когда несколько человек внесли правки в один и тот же файл --- весьма неприятная задача}\pause
-		\item{Для автоматизации решения этих задач были созданы \emph{системы контроля версий} (version control system)}
+		\item{Необходимо хранить историю версий проекта}\pause
+		\item{Архивы вида \texttt{001.tgz}, \texttt{002.tgz} и так далее --- непрактично и неудобно}\pause
+		\item{Совместная работа над проектом --- ещё сложнее}\pause
+		\item{Решение? Системы контроля версий}
 	\end{itemize}	
 \end{frame}
 
 \begin{frame}{Современные СКВ}
+	Виды СКВ:\pause
 	\begin{itemize}
-		\item{В данный момент существуют десятки различных СКВ. Наиболее популярной на данный момент является система git, за ней с огромным отрывом идёт Subversion, затем Mercurial и другие}\pause 
-		\item{Системы Subversion, CVS и другие называются \emph{централизованными}: есть центральный сервер, который хранит информацию обо всех версиях, и есть множество пользователей, у каждого из которых своя рабочая копия нужных ему файлов. Работать с такими системами гораздо удобнее, чем с локальными СКВ. Однако в случае недоступности центрального сервера работа с проектом становится невозможной. Кроме того, полный архив всех версий есть только в одном экземпляре.}
+		\item{Локальные --- невозможность совместной работы}\pause
+		\item{Централизованные (Subversion, CVS) --- сильная зависимость от центрального репозитория}\pause
+		\item{Распределённые (Git, Mercurial)}
 	\end{itemize}
 \end{frame}
 
-\begin{frame}
-	Эти недостатки решаются в \emph{распределённых} СКВ, к которым относятся git, Mercurial, Bazaar и другие. В отличие от ЦСКВ, эти системы хранят на пользовательских машинах весь репозиторий целиком. Это позволяет работать с несколькими удалёнными репозиториями (скажем, хранить разные ветки одного и того же проекта на разных серверах) или же обходиться без удалённых репозиториев вообще (такая возможность есть, например, в git)
-\end{frame}
-
-\subsection{Знакомство с Git}
+\section{Знакомство с Git}
 
 \begin{frame}{Знакомство с Git}
 	\begin{itemize}
-		\item{Как уже было сказано ранее, git --- это распределённая система контроля версий. Эта система была создана в 2005 году сообществом разработчиков ядра Linux на смену пропиетарной BitKeeper. Git --- это очень гибкий инструмент. У этого проекта есть подробное руководство на русском языке: {\color{blue} \url{https://git-scm.com/book/ru/v1}}. В данной презентации дано краткое описание часто используемых команд}\pause
-		\item{Для начала работы используются две команды: \texttt{git init <dir>} и \texttt{git clone <url>}. Первая позволяет создать локальный репозиторий из уже существующего каталога с файлами. Вторая же предназначена для создания локальной копии уже существующего репозитория.}
+		\item{Git --- распределённая система контроля версий}\pause
+		\item{Подробное руководство: {\color{blue} \url{https://git-scm.com/book/ru/v1}}}\pause
+		\item{Создание нового репозитория: \texttt{git~init}}\pause
+		\item{Клонирование уже существующего репозитория: \texttt{git~clone}}
 	\end{itemize}
+\end{frame}
+
+\begin{frame}{Коммиты}
+	\begin{tikzpicture}[
+	align=center,
+	thick,
+	node distance=1.7cm,
+	text height=1.5ex,
+	text depth=.25ex,
+	auto
+	]
+	
+	\node (a0) {a.txt:};
+	\node[file,right of=a0] (a1) {A1}; 
+	\node[oldfile,right of=a1] (a2) {A1};
+	\node[oldfile,right of=a2] (a3) {A1};
+	\node[file,right of=a3] (a4) {A2};
+	
+	\node[below of=a0] (b0) {main.c:};
+	\node[file,right of=b0] (b1) {B1}; 
+	\node[oldfile,right of=b1] (b2) {B1}; 
+	\node[file,right of=b2] (b3) {B2}; 
+	\node[oldfile,right of=b3] (b4) {B2}; 
+	
+	\node[below of=b0] (d0) {Makefile:};
+	\node[file,right of=d0] (d1) {D1}; 
+	\node[file,right of=d1] (d2) {D2}; 
+	\node[oldfile,right of=d2] (d3) {D2}; 
+	\node[file,right of=d3] (d4) {D3}; 
+	
+	\node[commit,above of=a1] (c1) {C1};
+	\node[commit,right of=c1] (c2) {C2};
+	\node[commit,right of=c2] (c3) {C3};
+	\node[commit,right of=c3] (c4) {C4};
+	
+	\path[->] (c1) edge (c2);
+	\path[->] (c2) edge (c3);
+	\path[->] (c3) edge (c4);
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Состояния файлов в репозитории}
+	\begin{center}
+		\includegraphics[width=8cm]{files/vcs/file_lifecycle.png}
+		
+		{\color{gray}\tiny Источник картинки: \color{blue}\url{https://git-scm.com/book/ru/v1/}\color{gray}, раздел 2.2}
+	\end{center}
 \end{frame}
 
 \begin{frame}
@@ -124,7 +163,7 @@ drop shadow
 \begin{frame}
 	\begin{itemize}
 		\item{Для синхронизации с удалённым репозиторием нужно воспользоваться командой \texttt{git push}. Будьте готовы к тому, что у Вас попросят пароль, если, конечно, не настроена аутентификация по ключу}\pause
-		
+		\item{}
 	\end{itemize}
 \end{frame}
 
