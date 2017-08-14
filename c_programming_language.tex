@@ -1,9 +1,9 @@
 \PassOptionsToPackage{unicode=true}{hyperref}
 
 % print mode
-%\documentclass[handout]{beamer}
+\documentclass[handout]{beamer}
 % presentation mode
-\documentclass{beamer}
+%\documentclass{beamer}
 
 \usetheme{Montpellier}
 \usepackage[T2A]{fontenc}
@@ -130,6 +130,28 @@ drop shadow
 		\item{Если отладка данной части кода завершена, и Вы хотите перейти к следующей точке останова, воспользуйтесь командой \texttt{c} (от \emph{continue})}\pause
 		\item{Для выхода служит команда \texttt{q}}
 	\end{itemize}
+\end{frame}
+
+\section{Особенности языка Си}
+
+\subsection{Структуры}
+\begin{frame}{Структуры}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/struct.c}
+\end{frame}
+
+\subsection{Битовые поля}
+\begin{frame}{Битовые поля}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/bitfield.c}
+\end{frame}
+	
+\subsection{Typedef}
+\begin{frame}{Typedef}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/typedef.c}
+\end{frame}
+
+\subsection{Указатели на функции}
+\begin{frame}{Указатели на функции}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/funcptr.c}
 \end{frame}
 	
 \end{document}
