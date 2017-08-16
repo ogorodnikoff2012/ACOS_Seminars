@@ -19,7 +19,7 @@
 \usetikzlibrary{positioning,arrows,shapes,shadows,calc}
 
 \usepackage{graphicx}
-
+\usepackage{color}
 
 \tikzstyle{dir} = [
 ellipse,
@@ -152,6 +152,82 @@ drop shadow
 \subsection{Указатели на функции}
 \begin{frame}{Указатели на функции}
 	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/funcptr.c}
+\end{frame}
+
+\subsection{Функции с переменным числом аргументов}
+\begin{frame}{Функции с переменным числом аргументов}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/vararg.c}
+\end{frame}
+
+\subsection{Стандартные функции ввода-вывода}
+\begin{frame}{Стандартные функции ввода-вывода}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/stdio.c}
+\end{frame}
+
+\begin{frame}{Многофункциональность функций \texttt{printf()}, \texttt{scanf()}}
+	\begin{center}
+		\begin{tabular}{|c|p{8cm}|}
+			\hline
+			Префикс & Назначение \\ \hline
+			\texttt{f} & Работа с произвольным файлом (\texttt{FILE *}) вместо стандартных потоков ввода и вывода\\ \hline
+			\texttt{s} & Работа со строковым буфером (небезопасно, так как выход за границу буфера не отслеживается) \\ \hline
+			\texttt{sn} & Работа со строковым буфером с указанием его длины\\
+			\hline
+			\texttt{v*} & Всё то же самое, но с использованием \texttt{va\_list} \\ \hline
+		\end{tabular}
+	\end{center} \pause
+	Для работы эти функции используют так называемые \emph{форматирующие} строки. Описание: {\color{blue}\url{http://en.cppreference.com/w/c/io/fprintf}}
+\end{frame}
+
+\subsection{Работа с динамической памятью}
+\begin{frame}{Работа с динамической памятью}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/malloc.c}
+\end{frame}
+
+\subsection{Статические переменные}
+\begin{frame}{Статические переменные внутри функций}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/static.c}
+\end{frame}
+
+\begin{frame}{Статические переменные вне функций}
+	\texttt{foo.c}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/static_foo.c}
+	\texttt{main.c}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/static_main.c}	
+\end{frame}
+
+\subsection{Макросы}
+\begin{frame}{Макросы}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/macros.c}
+\end{frame}
+
+\subsection{extern, volatile, auto}
+\begin{frame}{\texttt extern}
+	\texttt{foo.c}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/extern_foo.c}
+	\texttt{main.c}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/extern_main.c}
+\end{frame}
+	
+\begin{frame}{\texttt volatile}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/volatile.c}
+\end{frame}
+
+\begin{frame}{\texttt auto}
+	\begin{itemize}
+		\item{\texttt{auto} в Си имеет не такой смысл, как в C++}\pause
+		\item{В ранних версиях языка использовалось как антоним \texttt{extern}}\pause
+		\item{Сейчас сохраняется ради обратной совместимости и не рекомендуется к использованию}
+	\end{itemize}
+\end{frame}
+
+\subsection{Глобальные переменные}
+\begin{frame}{Глобальные переменные}
+	\begin{itemize}
+		\item{Если есть несколько файлов с одной и той же глобальной переменной, то произойдёт ошибка компиляции\footnote{На самом деле, линковки}}\pause
+		\item{Если несколько потоков используют одну и ту же глобальную переменную (например, \texttt{errno}), часть значений может потеряться}\pause
+		\item{Решение --- статические переменные}
+	\end{itemize}
 \end{frame}
 	
 \end{document}
