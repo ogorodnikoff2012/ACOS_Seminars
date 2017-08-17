@@ -230,4 +230,74 @@ drop shadow
 	\end{itemize}
 \end{frame}
 	
+\section{Стандартные заголовочные файлы}
+
+\section{Системные вызовы}
+\begin{frame}{Системные вызовы}
+	\begin{itemize}
+		\item{Предоставлять пользовательским процессам доступ напрямую к системным ресурсам нельзя}\pause
+		\item{С другой стороны, процессам необходимо выполнять некоторые <<небезопасные>> операции: ввод-вывод, создание дочерних процессов и так далее}\pause
+		\item{Решение: использовать <<официанта>> (ядро ОС), который обладает полным доступом к ресурсам. Системные вызовы~--- механизм отправки заказов <<официанту>>}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Принцип работы}
+	\begin{itemize}
+		\item{Процесс кладёт номер системного вызова, аргументы к нему и так далее в регистры процессора и совершает программное прерывание}\pause
+		\item{Процессор переходит в привилегированный режим работы, переходит к коду обработчика прерывания}\pause
+		\item{ОС что-то делает, сохраняет результат своей работы в регистры и возвращает управление процессу}
+	\end{itemize}
+\end{frame}
+	
+\section{Компиляция и линковка}
+\subsection{Компиляция}
+\begin{frame}{Компиляция}
+	\begin{itemize}
+		\item{Из файла с исходным кодом компилируется \emph{объектный файл} (\texttt{foo.c --> foo.o})}
+		\item{Объектный файл содержит информацию о символах, объявленных либо требуемых в исходнике (имена глобальных переменных, функций), исполняемый код функций и прочее}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Линковка}
+	\begin{itemize}
+		\item{Из объектных файлов собирается исполняемый файл либо библиотека}\pause
+		\item{Важно отличать статические библиотеки (\texttt{*.a}, по сути --- архив с объектными файлами) от динамических (\texttt{*.so} в Linux или \texttt{*.dll} в Windows, самостоятельные блоки кода, загружаются во время работы программы)}
+	\end{itemize}
+\end{frame}
+
+\section{Пример программы из нескольких файлов}	
+\begin{frame}{Пример программы из нескольких файлов}
+	\texttt{foo.h}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/foo.h}
+\end{frame}
+
+\begin{frame}{Пример программы из нескольких файлов}
+	\texttt{foo.с}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/example_foo.c}
+\end{frame}
+
+\begin{frame}{Пример программы из нескольких файлов}
+	\texttt{main.c}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{C}{files/c_programming_langauge/example_main.c}
+	Команды:
+	\inputminted[bgcolor=listing,fontsize=\small]{bash}{files/c_programming_langauge/example_compile.sh}
+\end{frame}
+
+\section{Системы автоматической сборки}
+\begin{frame}{Системы автоматической сборки}
+	\begin{itemize}
+		\item{Если файлов много, собирать программу вручную неудобно}\pause
+		\item{Существуют разные системы автоматической сборки: GNU Make, CMake, разнообразные IDE с проектами}\pause
+		\item{GNU Make --- универсальная система, но не очень удобная}\pause
+		\item{CMake специализируется на проектах C/C++, зато прост в использовании}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Конфигурационный файл}
+	\texttt{CMakeLists.txt}
+	\inputminted[linenos,bgcolor=listing,fontsize=\small]{CMake}{files/c_programming_langauge/CMakeLists.txt}
+	Команды:
+	\inputminted[bgcolor=listing,fontsize=\small]{bash}{files/c_programming_langauge/example_cmake.sh}
+\end{frame}
+
 \end{document}
